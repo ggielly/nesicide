@@ -68,7 +68,7 @@ CSampleEditorView::~CSampleEditorView()
 	SAFE_RELEASE(m_pScrollBar);
 }
 
-/*
+
 void CSampleEditorView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
