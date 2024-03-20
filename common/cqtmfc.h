@@ -2291,7 +2291,7 @@ enum
 
 // workaround to force ignore ms_abi errors, not needed as long as we don't link with other mfc implementations
 // also g++ doesn't have __has_attribute()
-#if !defined(Q_OS_WIN) && !defined(Q_OS_WIN32)
+#if !defined(Q_WS_WIN) && !defined(Q_WS_WIN32) && !defined(__GNUC__) && !defined(__GNUG__)
 #define ms_abi
 #endif
 
