@@ -68,6 +68,7 @@ CSampleEditorView::~CSampleEditorView()
 	SAFE_RELEASE(m_pScrollBar);
 }
 
+/*
 void CSampleEditorView::OnPaint()
 {
 	CPaintDC dc(this); // device context for painting
@@ -188,6 +189,98 @@ void CSampleEditorView::OnPaint()
 
 	dc.BitBlt(0, 0, m_clientRect.Width(), m_clientRect.Height(), &m_dcCopy, 0, 0, SRCCOPY);
 }
+
+/*
+void CSampleEditorView::OnPaint()
+{
+    CPaintDC dc(this); // device context for painting
+
+    CRect sbRect;
+    m_pScrollBar->GetClientRect(&sbRect);
+    int ScrollBarHeight = sbRect.bottom - sbRect.top;
+
+    GetClientRect(&m_clientRect);
+    m_clientRect.bottom -= ScrollBarHeight;
+
+    int Width = m_clientRect.right - ::GetSystemMetrics(SM_CXEDGE);
+    int Height = m_clientRect.bottom - ::GetSystemMetrics(SM_CYEDGE);
+
+    // Create compatible bitmap and device context for double buffering
+    CreateCompatibleBuffer(dc, Width, Height);
+
+    if (m_iSize == 0) {
+        DrawNoSampleText();
+        return;
+    }
+
+    // Calculate sample step and block size
+    CalculateSampleStepAndBlockSize(Width);
+
+    // Draw block markers
+    DrawBlockMarkers(Width, Height);
+
+    // Draw selection
+    DrawSelection(Width, Height);
+
+    // Draw sample waveform
+    DrawSampleWaveform(Width, Height);
+
+    // Copy buffer to screen
+    CopyBufferToScreen(dc);
+}
+
+void CSampleEditorView::CreateCompatibleBuffer(CDC& dc, int width, int height)
+{
+    if (m_dcCopy.m_hDC != NULL)
+        m_dcCopy.DeleteDC();
+
+    if (m_bmpCopy.m_hObject != NULL)
+        m_bmpCopy.DeleteObject();
+
+    m_bmpCopy.CreateCompatibleBitmap(&dc, width, height);
+    m_dcCopy.CreateCompatibleDC(&dc);
+    m_dcCopy.SelectObject(&m_bmpCopy);
+    m_dcCopy.FillSolidRect(m_clientRect, 0xFFFFFF);
+    m_dcCopy.SetViewportOrg(1, 1);
+}
+
+void CSampleEditorView::DrawNoSampleText()
+{
+    m_dcCopy.TextOut(10, 10, _T("No sample"));
+}
+
+void CSampleEditorView::CalculateSampleStepAndBlockSize(int width)
+{
+    int Size = m_iViewEnd - m_iViewStart;
+    double Step = (Size == 0) ? 1.0 : (static_cast<double>(Size) / static_cast<double>(width));
+    m_dSampleStep = Step;
+    m_iBlockSize = (width * (8 * 16)) / Size;
+}
+
+void CSampleEditorView::DrawBlockMarkers(int width, int height)
+{
+    // Implementation of drawing block markers
+}
+
+void CSampleEditorView::DrawSelection(int width, int height)
+{
+    // Implementation of drawing selection
+}
+
+void CSampleEditorView::DrawSampleWaveform(int width, int height)
+{
+    // Implementation of drawing sample waveform
+}
+
+void CSampleEditorView::CopyBufferToScreen(CPaintDC& dc)
+{
+    dc.BitBlt(0, 0, m_clientRect.Width(), m_clientRect.Height(), &m_dcCopy, 0, 0, SRCCOPY);
+}
+*/
+//
+// End refactoring
+//
+
 
 BOOL CSampleEditorView::OnEraseBkgnd(CDC* pDC)
 {
