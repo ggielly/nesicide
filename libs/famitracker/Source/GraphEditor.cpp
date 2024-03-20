@@ -72,6 +72,7 @@ BOOL CGraphEditor::OnEraseBkgnd(CDC* pDC)
 	return FALSE;
 }
 
+
 BOOL CGraphEditor::CreateEx(DWORD dwExStyle, LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, LPVOID lpParam)
 {
 	if (CWnd::CreateEx(dwExStyle, lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, nID, lpParam) == -1)
@@ -121,6 +122,81 @@ BOOL CGraphEditor::CreateEx(DWORD dwExStyle, LPCTSTR lpszClassName, LPCTSTR lpsz
 
 	return 0;
 }
+
+
+/*
+BOOL CGraphEditor::CreateEx(DWORD dwExStyle, LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, LPVOID lpParam)
+{
+    // Create the window
+    if (CWnd::CreateEx(dwExStyle, lpszClassName, lpszWindowName, dwStyle, rect, pParentWnd, nID, lpParam) == -1)
+        return -1;
+
+    // Create the small font
+    CreateSmallFont();
+
+    // Calculate draw areas
+    CalculateDrawAreas();
+
+    // Redraw the window
+    RedrawWindow();
+
+    // Create double buffering
+    CreateDoubleBuffering();
+
+    // Initialize the graph editor
+    Initialize();
+
+    // Set up a timer for periodic updates
+    SetTimer(0, 30, NULL);
+
+    return 0;
+}
+
+void CGraphEditor::CreateSmallFont()
+{
+    const TCHAR *SMALL_FONT_FACE = _T("Verdana");
+
+    m_pSmallFont = new CFont();
+
+    LOGFONT logFont;
+    memset(&logFont, 0, sizeof(LOGFONT));
+    _tcscpy_s(logFont.lfFaceName, 32, SMALL_FONT_FACE);
+    logFont.lfHeight = -10;
+    logFont.lfPitchAndFamily = VARIABLE_PITCH | FF_SWISS;
+
+    m_pSmallFont->CreateFontIndirect(&logFont);
+}
+
+void CGraphEditor::CalculateDrawAreas()
+{
+    GetClientRect(m_GraphRect);
+    GetClientRect(m_BottomRect);
+    GetClientRect(m_ClientRect);
+
+    m_GraphRect.top += GRAPH_BOTTOM * 2 + 4;
+    m_GraphRect.bottom -= GRAPH_BOTTOM;
+    m_GraphRect.left += GRAPH_LEFT;
+    m_GraphRect.bottom = (m_GraphRect.bottom / 15) * 15;
+    m_BottomRect.left += GRAPH_LEFT;
+    m_BottomRect.top = m_GraphRect.bottom;
+}
+
+void CGraphEditor::CreateDoubleBuffering()
+{
+    CDC *pDC = GetDC();
+
+    m_pBackDC = new CDC();
+    m_pBitmap = new CBitmap();
+
+    m_pBackDC->CreateCompatibleDC(pDC);
+    m_pBitmap->CreateCompatibleBitmap(pDC, m_ClientRect.Width(), m_ClientRect.Height());
+
+    m_pBackDC->SelectObject(m_pBitmap);
+
+    ReleaseDC(pDC);
+}
+*/
+// end of refactoring
 
 void CGraphEditor::Initialize()
 {

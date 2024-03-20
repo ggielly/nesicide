@@ -20,7 +20,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include "stdafx.h"
 #include "FamiTracker.h"
 #include "FamiTrackerDoc.h"
 #include "FamiTrackerView.h"
@@ -202,7 +201,8 @@ void CPatternEditor::ApplyColorScheme()
 
 	// Create pattern font
 	memset(&LogFont, 0, sizeof(LOGFONT));
-	memcpy(LogFont.lfFaceName, FontName, _tcslen(FontName));
+//	memcpy(LogFont.lfFaceName, FontName, _tcslen(FontName));
+	strncpy(LogFont.lfFaceName, FontName, LF_FACESIZE);
 
 	LogFont.lfHeight = -m_iPatternFontSize;
 //	LogFont.lfHeight = -MulDiv(12, _dpiY, 96);
@@ -763,6 +763,8 @@ bool CPatternEditor::CursorUpdated()
 	return bUpdateNeeded;
 }
 
+
+
 void CPatternEditor::CreateBackground(CDC *pDC)
 {
 	// Called when the background is erased, create new pattern layout
@@ -808,6 +810,93 @@ void CPatternEditor::CreateBackground(CDC *pDC)
 
 	++m_iErases;
 }
+
+/*
+void CPatternEditor::CreateBackground(CDC* pDC)
+{
+    // Check if a new pattern layout needs to be calculated
+    const bool bCreateBuffers = CalculatePatternLayout();
+
+    // Ensure cursor alignment
+    if (CursorUpdated()) {
+        InvalidateBackground();
+    }
+
+    // Invalidate header
+    InvalidateHeader();
+
+    // Allocate backbuffer area only if window size or pattern width has changed
+    if (bCreateBuffers) {
+        // Release existing buffers
+        ReleaseBuffers();
+
+        // Allocate new buffers
+        AllocateBuffers(pDC);
+
+        // Increment buffer counter
+        ++m_iBuffers;
+    }
+
+    // Increment erases counter
+    ++m_iErases;
+}
+
+void CPatternEditor::ReleaseBuffers()
+{
+    SAFE_RELEASE(m_pPatternBmp);
+    SAFE_RELEASE(m_pHeaderBmp);
+    SAFE_RELEASE(m_pPatternDC);
+    SAFE_RELEASE(m_pHeaderDC);
+}
+
+void CPatternEditor::AllocateBuffers(CDC* pDC)
+{
+ /*   // Calculate dimensions for buffers
+    int Width = ROW_COLUMN_WIDTH + m_iPatternWidth;
+    int Height = m_iPatternHeight;
+
+    // Allocate pattern buffer
+    m_pPatternBmp = new CBitmap;
+    m_pPatternBmp->CreateCompatibleBitmap(pDC, Width, Height);
+    m_pPatternDC = new CDC;
+    m_pPatternDC->CreateCompatibleDC(pDC);
+    m_pPatternDC->SelectObject(m_pPatternBmp);
+
+    // Allocate header buffer
+    m_pHeaderBmp = new CBitmap;
+    m_pHeaderBmp->CreateCompatibleBitmap(pDC, Width, HEADER_HEIGHT);
+    m_pHeaderDC = new CDC;
+    m_pHeaderDC->CreateCompatibleDC(pDC);
+    m_pHeaderDC->SelectObject(m_pHeaderBmp);
+
+
+
+
+    // Allocate new buffers
+    m_pPatternBmp = new CBitmap;
+    m_pHeaderBmp = new CBitmap;
+    m_pPatternDC = new CDC;
+    m_pHeaderDC = new CDC;
+
+    int Width = ROW_COLUMN_WIDTH + m_iPatternWidth;
+    int Height = m_iPatternHeight;
+
+    // Setup pattern dc
+    m_pPatternBmp->CreateCompatibleBitmap(pDC, Width, Height);
+    m_pPatternDC->CreateCompatibleDC(pDC);
+    m_pPatternDC->SelectObject(m_pPatternBmp);
+
+    // Setup header dc
+    m_pHeaderBmp->CreateCompatibleBitmap(pDC, Width, HEADER_HEIGHT);
+    m_pHeaderDC->CreateCompatibleDC(pDC);
+    m_pHeaderDC->SelectObject(m_pHeaderBmp);
+}
+}
+
+*/
+
+// End refactoring
+
 
 void CPatternEditor::DrawUnbufferedArea(CDC *pDC)
 {

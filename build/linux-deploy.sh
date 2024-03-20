@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Find Qt
-. /opt/qt510/bin/qt510-env.sh
+#. /opt/qt510/bin/qt510-env.sh
 
 DISTPATH=$PWD/nesicide-local
 LIBDEPS="deps/rtmidi/release/librtmidi \
