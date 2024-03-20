@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Find Qt
-#. /opt/qt510/bin/qt510-env.sh
+if [[ $EUID -ne 0 ]]; then
+   echo "This script must be run as root" 
+   exit 1
+fi
 
-DISTPATH=$PWD/nesicide-local
 LIBDEPS="deps/rtmidi/release/librtmidi \
      deps/qscintilla2/Qt4Qt5/libqscintilla2_qt5 \
-     deps/qhexedit2/lib/libqhexedit \
      libs/nes/release/libnes-emulator \
      libs/c64/release/libc64-emulator \
      libs/famitracker/release/libfamitracker"
@@ -16,13 +16,10 @@ DEPLOYS="apps/ide/release/nesicide \
         apps/famiplayer/release/famiplayer \
         apps/nes-emulator/release/nes-emulator"
 
-TARGARGS="-verbose=0 -appimage"
-if [ "$TRAVIS_BUILD_DIR" != "" ]; then
-  TARGARGS+=" -qmake=/opt/qt510/bin/qmake"
-fi
+TARGARGS="-verbose=0 -appimage -qmake=/usr/bin/qmake -unsupported-allow-new-glibc"
 
 unset QTDIR; unset QT_PLUGIN_PATH; unset LD_LIBRARY_PATH
-
+echo 'OI! - pass "local" for a local install'
 if [ "$1" == "local" ]; then
   if [ ! -f "./linuxdeployqt-continuous-x86_64.AppImage" ]; then
     wget -q -c "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
@@ -33,9 +30,9 @@ if [ "$1" == "local" ]; then
   do
     DIST=$(basename $DEPLOY) 
     echo Deploying ${DIST}
-    rm -rf $DISTPATH
-    mkdir -pv $DISTPATH
-    cp -v ${DEPLOY} $DISTPATH/
+    rm -rf ./dist
+    mkdir -pv ./dist
+    cp -v ${DEPLOY} ./dist/
     for f in ${LIBDEPS}
     do 
       sudo cp -v ${f}* /usr/lib/x86_64-linux-gnu/
@@ -43,17 +40,15 @@ if [ "$1" == "local" ]; then
     if [ "$DEPLOY" == "apps/ide/release/nesicide" ]; then
       make -C deps/cc65/src all
       make -C deps/cc65/libsrc nes c64
-      make -C deps/cc65 install PREFIX=$DISTPATH/cc65
-      cp -rv deps/uc65-release-0.5-rc6 $DISTPATH/
-      make -C tools/famitone2 all
-      make -C tools/famitone2 install PREFIX=$DISTPATH/famitone2/bin
+      make -C deps/cc65 install PREFIX=$TRAVIS_BUILD_DIR/dist/cc65
     fi
-    cp -v build/${DIST}.desktop $DISTPATH
-    cp -v build/${DIST}.png $DISTPATH
-    ./linuxdeployqt-continuous-x86_64.AppImage $DISTPATH/${DIST}.desktop ${TARGARGS}
+    cp -v build/${DIST}.desktop ./dist
+    cp -v build/${DIST}.png ./dist
+    ./linuxdeployqt-continuous-x86_64.AppImage ./dist/${DIST}.desktop ${TARGARGS}
   done
 elif [ "$1" == "remote" ]; then
-  rsync {fami,nes}*.AppImage cpow@162.243.126.83:/var/www/html/nesicide/media/downloads/
+  rsync $TRAVIS_BUILD_DIR/{fami,nes}*.AppImage cpow@162.243.126.83:/var/www/html/nesicide/media/downloads/
 fi
 
+echo 'done'
 exit 0
