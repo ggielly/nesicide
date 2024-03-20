@@ -41,8 +41,8 @@ MemoryInspectorDockWidget::MemoryInspectorDockWidget(memDBFunc memDB,CBreakpoint
 
    m_editor = new QHexEdit();
 
-   m_editor->setAddressAreaBackgroundColor(EnvironmentSettingsDialog::marginBackgroundColor());
-   m_editor->setAddressAreaForegroundColor(EnvironmentSettingsDialog::marginForegroundColor());
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginBackgroundColor());
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginForegroundColor());
    m_editor->setHexCaps(true);
 
 #if defined(Q_OS_MAC) || defined(Q_OS_MACX) || defined(Q_OS_MAC64)
@@ -353,7 +353,7 @@ void MemoryInspectorDockWidget::snapToHandler(QString item)
 
 void MemoryInspectorDockWidget::applyEnvironmentSettings()
 {
-   m_editor->setAddressAreaBackgroundColor(EnvironmentSettingsDialog::marginBackgroundColor());
-   m_editor->setAddressAreaForegroundColor(EnvironmentSettingsDialog::marginForegroundColor());
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginBackgroundColor());
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginForegroundColor());
    m_editor->update();
 }

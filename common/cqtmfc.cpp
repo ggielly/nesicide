@@ -1985,7 +1985,7 @@ CString CString::Tokenize(
    delim = QString::fromLatin1(pszTokens);
 #endif
 
-   QStringList tokens = temp.split(delim,Qt::SkipEmptyParts);
+   QStringList tokens = temp.split(delim,QString::SkipEmptyParts);
 
    if ( tokens.count() )
    {

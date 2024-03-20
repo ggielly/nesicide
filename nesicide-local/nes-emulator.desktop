@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=nes-emulator
+Exec=nes-emulator
+Icon=nes-emulator
+Comment=Stand-alone NES emulator from NESICIDE
+Categories=Game;Emulator;
