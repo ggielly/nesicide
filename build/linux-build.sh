@@ -26,7 +26,7 @@
 
 # add CONFIG+=debug to qmake to build debug.
 echo Building NESICIDE...
-( cd build/ide; qmake; make )
+( cd build/ide; qmake CONFIG+=debug; make )
 cd ide && qmake && make && cd ..
 echo Building FamiTracker...
 ( cd build/nes-emulator; qmake; make )

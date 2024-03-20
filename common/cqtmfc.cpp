@@ -3048,7 +3048,7 @@ HGDIOBJ CBitmap::Detach()
    return CGdiObject::Detach();
 }
 
-BOOL CBitmap::CreateCompatibleBitmap(
+/*BOOL CBitmap::CreateCompatibleBitmap(
    CDC* pDC,
    int nWidth,
    int nHeight
@@ -3060,6 +3060,29 @@ BOOL CBitmap::CreateCompatibleBitmap(
    _owned = true;
    return TRUE;
 }
+*/
+
+BOOL CBitmap::CreateCompatibleBitmap(
+   CDC* pDC,
+   int nWidth,
+   int nHeight
+)
+{
+   if (_owned && _qpixmap)
+   {
+      delete _qpixmap;
+      // Fix a memory leak 
+      _qpixmap = nullptr; // Reinit the pointer after deletion, avoid deleting and unknow pointer
+   }
+
+   _qpixmap = new QPixmap(nWidth, nHeight);
+   _owned = true;
+   return TRUE;
+}
+
+
+
+
 
 BOOL CBitmap::CreateBitmap(
    int nWidth,

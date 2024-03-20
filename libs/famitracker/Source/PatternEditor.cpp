@@ -200,10 +200,9 @@ void CPatternEditor::ApplyColorScheme()
 	CalcLayout();
 
 	// Create pattern font
-	memset(&LogFont, 0, sizeof(LOGFONT));
-//	memcpy(LogFont.lfFaceName, FontName, _tcslen(FontName));
+	ZeroMemory(&LogFont, sizeof(LOGFONT));
 	strncpy(LogFont.lfFaceName, FontName, LF_FACESIZE);
-
+	
 	LogFont.lfHeight = -m_iPatternFontSize;
 //	LogFont.lfHeight = -MulDiv(12, _dpiY, 96);
 	LogFont.lfQuality = DRAFT_QUALITY;
