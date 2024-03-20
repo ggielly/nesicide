@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=famitracker
+Exec=famitracker
+Icon=famitracker
+Comment=Qt port of FamiTracker
+Categories=Audio;AudioVideo;Development;Music;

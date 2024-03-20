@@ -1,15 +1,16 @@
-# nesicide [![Build Status](https://travis-ci.org/christopherpow/nesicide.svg?branch=master)](https://travis-ci.org/christopherpow/nesicide) [![Build status](https://ci.appveyor.com/api/projects/status/284fj1df8dur76g5?svg=true)](https://ci.appveyor.com/project/christopherpow/nesicide)
-
 nesicide is an Integrated Development Environment (IDE) for the 8-bit Nintendo Entertainment System (NES).
+
+This fork is a try to maintain and compile on recent computer.
+
 
 ## Products in Project
 
 This project contains the following products:
 
-* NESICIDE (the IDE itself)
-* A NES emulator (standalone package of the emulator used in the IDE)
-* Qt FamiTracker (a fork of jsr's FamiTracker)
-* FamiPlayer (a music player for .ftm files)
+* NESICIDE : the IDE itself
+* A NES emulator : standalone package of the emulator used in the IDE
+* [FamiTracker-qt](https://github.com/Prichman/famitracker-qt) : a fork of jsr's FamiTracker
+* FamiPlayer : a music player for .ftm files
 
 ## Prerequisites
 
