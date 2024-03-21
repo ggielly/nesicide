@@ -69,6 +69,8 @@ public:
 	void	GetInputDeviceString(int Num, CString &Text) const;
 	void	GetOutputDeviceString(int Num, CString &Text) const;
 
+    void RtMidiInProc(double timeStamp, std::vector<unsigned char>* message, void* userData);
+
 	// Private methods
 private:
 	void	Event(unsigned char Status, unsigned char Data1, unsigned char Data2);
@@ -77,12 +79,9 @@ private:
 	// Constants
 private:
 	static const int MAX_QUEUE = 100;
-
 	// Static functions & variables
-private:
-//   static void CALLBACK MidiInProc(HMIDIIN hMidiIn, UINT wMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2);
-   static void CALLBACK RtMidiInProc( double timeStamp, std::vector<unsigned char> *message, void *userData);
-   static CMIDI *m_pInstance;
+    static CMIDI *m_pInstance;
+    static void midiCallback(double timeStamp, std::vector<unsigned char> *message, void *userData); 
 
 	// Private variables
 private:

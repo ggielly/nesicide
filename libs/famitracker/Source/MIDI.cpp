@@ -34,32 +34,80 @@
 #define ASSEMBLE_PARAM(Status, Byte1, Byte2) ((Status) | ((Byte1) << 8) | ((Byte2) << 16))
 
 // Static stuff
-
 CMIDI *CMIDI::m_pInstance = NULL;
 
-//void CALLBACK CMIDI::MidiInProc(HMIDIIN hMidiIn, UINT wMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2)
-//{
-//	// MIDI input callback function
+///////////////////////////////////////////////////////// 
+//
+// Implementation of midiCallback function
+///
+void CMIDI::midiCallback(double timeStamp, std::vector<unsigned char> *message, void *userData) {
+  // Validate CMIDI instance and MIDI message
+  if (!validateMidiData(userData, message)) {
+    return;
+  }
 
-//	if (wMsg == MIM_DATA) {
-//		unsigned char Status = (char)(dwParam1 & 0xFF);
-//		unsigned char Data1	 = (char)(dwParam1 >> 8) & 0xFF;
-//		unsigned char Data2	 = (char)(dwParam1 >> 16) & 0xFF;
-//		m_pInstance->Event(Status, Data1, Data2);
-//	}
-//}
-
-void CALLBACK CMIDI::RtMidiInProc( double timeStamp, std::vector<unsigned char> *message, void *userData)
-{
-   // MIDI input callback function
-
-//	if (wMsg == MIM_DATA) {
-//		unsigned char Status = (char)(dwParam1 & 0xFF);
-//		unsigned char Data1	 = (char)(dwParam1 >> 8) & 0xFF;
-//		unsigned char Data2	 = (char)(dwParam1 >> 16) & 0xFF;
-//		m_pInstance->Event(Status, Data1, Data2);
-//	}
+  // Process MIDI message based on type
+  CMIDI* instance = static_cast<CMIDI*>(userData);
+  instance->handleMidiMessage(*message);
 }
+
+bool CMIDI::validateMidiData(void* userData, std::vector<unsigned char>* message) {
+  if (userData == nullptr) {
+    std::cerr << "Error: Invalid CMIDI instance!" << std::endl;
+    return false;
+  }
+
+  if (message == nullptr || message->empty()) {
+    std::cerr << "Error: Invalid MIDI message!" << std::endl;
+    return false;
+  }
+
+  return true;
+}
+
+void CMIDI::handleMidiMessage(const std::vector<unsigned char>& message) {
+  // Extract message data
+  unsigned char status = message[0];
+
+  // Process message based on status byte
+  if (status == 0x90 && message.size() >= 3) {
+    // Process Note-On messages
+    unsigned char note = message[1];
+    unsigned char velocity = message[2];
+    // Perform actions based on note and velocity data
+  } else if (status == 0x80 && message.size() >= 3) {
+    // Process Note-Off messages
+    // Perform actions based on note and velocity data
+  }
+  // Add more cases as needed for other MIDI message types
+}
+///////////////////////////////////////// 
+///
+///
+
+
+void CMIDI::RtMidiInProc(double timeStamp, std::vector<unsigned char> *message, void *userData)
+{
+    // MIDI input callback function
+
+    // Uncommented section for processing MIDI input messages based on Windows messages
+    /*
+    if (wMsg == MIM_DATA) {
+        unsigned char Status = (char)(dwParam1 & 0xFF);
+        unsigned char Data1   = (char)(dwParam1 >> 8) & 0xFF;
+        unsigned char Data2   = (char)(dwParam1 >> 16) & 0xFF;
+        m_pInstance->Event(Status, Data1, Data2);
+    }
+    */
+
+    // Check if the MIDI message is a note-on message (status byte 0x90)
+    if (message->size() >= 3 && (*message)[0] == 0x90) {
+        unsigned char note = (*message)[1];       // Note number
+        unsigned char velocity = (*message)[2];   // Velocity
+        // Process the note-on message
+    }
+}
+
 
 // Instance stuff
 
@@ -128,18 +176,20 @@ void CMIDI::Shutdown(void)
 	CloseDevices();
 }
 
+
+/*
 bool CMIDI::OpenDevices(void)
 {
    MMRESULT Result;
 
    if (m_iInDevice == 0 && m_iOutDevice == 0)
-      return true;
+	  return true;
 
    // Input
    if (m_iInDevice != 0) {
 
 //		Result = midiInOpen(&m_hMIDIIn, m_iInDevice - 1, (DWORD_PTR)MidiInProc, 0, CALLBACK_FUNCTION);
-      midiin->openPort( m_iInDevice );
+	  midiin->openPort( m_iInDevice );
 
 //		if (Result != MMSYSERR_NOERROR) {
 //			m_hMIDIIn = NULL;
@@ -147,22 +197,22 @@ bool CMIDI::OpenDevices(void)
 //			return false;
 //		}
 
-      // Auto-enable input device
+	  // Auto-enable input device
 //		midiInStart(m_hMIDIIn);
-      // Set our callback function.  This should be done immediately after
-      // opening the port to avoid having incoming messages written to the
-      // queue.
-      midiin->setCallback( &RtMidiInProc );
-      // Don't ignore sysex, timing, or active sensing messages.
-      midiin->ignoreTypes( false, false, false );
-      m_bInStarted = true;
+	  // Set our callback function.  This should be done immediately after
+	  // opening the port to avoid having incoming messages written to the
+	  // queue.
+	  midiin->setCallback( &RtMidiInProc );
+	  // Don't ignore sysex, timing, or active sensing messages.
+	  midiin->ignoreTypes( false, false, false );
+	  m_bInStarted = true;
    }
 
    // Output
    if (m_iOutDevice != 0) {
 
 //		Result = midiOutOpen(&m_hMIDIOut, m_iOutDevice - 1, NULL, 0, CALLBACK_NULL);
-      midiout->openPort( m_iOutDevice );
+	  midiout->openPort( m_iOutDevice );
 
 //		if (Result != MMSYSERR_NOERROR) {
 //			m_hMIDIOut = NULL;
@@ -170,29 +220,29 @@ bool CMIDI::OpenDevices(void)
 //			return false;
 //		}
 
-      // Set patches
-      unsigned int dwParam1;
+	  // Set patches
+	  unsigned int dwParam1;
 //		midiOutShortMsg(m_hMIDIOut, (MIDI_MSG_PROGRAM_CHANGE << 4 | 0x00) | (1 << 8));
-      std::vector<unsigned char> data;
-      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x00));
-      data.push_back((1<<8));
-      midiout->sendMessage(&data);
+	  std::vector<unsigned char> data;
+	  data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x00));
+	  data.push_back((1<<8));
+	  midiout->sendMessage(&data);
 //		midiOutShortMsg(m_hMIDIOut, (MIDI_MSG_PROGRAM_CHANGE << 4 | 0x01) | (1 << 8));
-      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x01));
-      data.push_back(1);
-      midiout->sendMessage(&data);
+	  data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x01));
+	  data.push_back(1);
+	  midiout->sendMessage(&data);
 //		midiOutShortMsg(m_hMIDIOut, (MIDI_MSG_PROGRAM_CHANGE << 4 | 0x02) | (74 << 8));
-      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x02));
-      data.push_back(74);
-      midiout->sendMessage(&data);
+	  data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x02));
+	  data.push_back(74);
+	  midiout->sendMessage(&data);
 //		midiOutShortMsg(m_hMIDIOut, (MIDI_MSG_PROGRAM_CHANGE << 4 | 0x03) | (115 << 8));
-      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x03));
-      data.push_back(115);
-      midiout->sendMessage(&data);
+	  data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x03));
+	  data.push_back(115);
+	  midiout->sendMessage(&data);
 //		midiOutShortMsg(m_hMIDIOut, (MIDI_MSG_PROGRAM_CHANGE << 4 | 0x04) | (118 << 8));
-      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x04));
-      data.push_back(118);
-      midiout->sendMessage(&data);
+	  data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x04));
+	  data.push_back(118);
+	  midiout->sendMessage(&data);
 
 //		midiOutReset(m_hMIDIOut);
    }
@@ -203,6 +253,72 @@ bool CMIDI::OpenDevices(void)
 
 	return true;
 }
+*/
+
+
+bool CMIDI::OpenDevices(void)
+{
+   MMRESULT Result;
+
+   if (m_iInDevice == 0 && m_iOutDevice == 0)
+      return true;
+
+   // Input
+   if (m_iInDevice != 0) {
+      // Open the MIDI input port
+      midiin->openPort(m_iInDevice - 1); // Adjust for zero-based index
+      // Set the callback function to RtMidiInProc
+	  
+      //midiin->setCallback(&CMIDI::RtMidiInProc, this); // Pass the current instance as userData
+          // Appel de la fonction de rappel MIDI comme fonction statique de la classe CMIDI
+    midiin->setCallback(&CMIDI::midiCallback, this); // Passer l'instance actuelle en tant que userData
+
+	  // Don't ignore any MIDI message types
+      midiin->ignoreTypes(false, false, false);
+      m_bInStarted = true;
+   }
+
+   // Output
+   if (m_iOutDevice != 0) {
+      // Open the MIDI output port
+      midiout->openPort(m_iOutDevice - 1); // Adjust for zero-based index
+
+      // Set patches
+      std::vector<unsigned char> data;
+      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x00));
+      data.push_back(1);
+      midiout->sendMessage(&data);
+
+      data.clear(); // Clear the vector for the next message
+      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x01));
+      data.push_back(1);
+      midiout->sendMessage(&data);
+
+      data.clear(); // Clear the vector for the next message
+      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x02));
+      data.push_back(74);
+      midiout->sendMessage(&data);
+
+      data.clear(); // Clear the vector for the next message
+      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x03));
+      data.push_back(115);
+      midiout->sendMessage(&data);
+
+      data.clear(); // Clear the vector for the next message
+      data.push_back((MIDI_MSG_PROGRAM_CHANGE << 4 | 0x04));
+      data.push_back(118);
+      midiout->sendMessage(&data);
+   }
+
+   // Reset the MIDI queue
+   m_csQueue.Lock();
+   m_iQueueHead = m_iQueueTail = 0;
+   m_csQueue.Unlock();
+
+   return true;
+}
+
+
 
 bool CMIDI::CloseDevices(void)
 {
@@ -368,7 +484,7 @@ int CMIDI::GetQuantization() const
 	return m_iQuant;
 }
 
-void CMIDI::ToggleInput()
+/*void CMIDI::ToggleInput()
 {
    if (m_bInStarted)
 //		midiInStop(m_hMIDIIn);
@@ -379,6 +495,29 @@ void CMIDI::ToggleInput()
 
 	m_bInStarted = !m_bInStarted;
 }
+*/
+
+
+void CMIDI::ToggleInput()
+{
+    if (m_bInStarted)
+    {
+        // Stop MIDI input
+        midiin->cancelCallback();
+    }
+    else
+    {
+        // Start MIDI input
+        midiin->setCallback(&CMIDI::midiCallback, this); // Passer l'instance actuelle en tant que userData
+    }
+
+    // Toggle the input status flag
+    m_bInStarted = !m_bInStarted;
+}
+
+
+
+
 
 void CMIDI::WriteNote(unsigned char Channel, unsigned char Note, unsigned char Octave, unsigned char Velocity)
 {
