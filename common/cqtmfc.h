@@ -2298,8 +2298,13 @@ enum
 // CP: Not sure what this does yet.
 #define USES_CONVERSION
 
+
+//Check if we are under Windows
+#ifdef _WIN32
 #include <windows.h>
 #include <prsht.h>
+#endif
+
 
 #if defined(Q_OS_WIN) || defined(Q_OS_WIN32)
 #define CALLBACK
