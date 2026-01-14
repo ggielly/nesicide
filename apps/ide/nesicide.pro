@@ -62,9 +62,9 @@ CONFIG(release, debug|release) {
     win32:QHEXEDIT_NAME=qhexedit4
     else:QHEXEDIT_NAME=qhexedit
 } else {
-   QHEXEDIT_NAME=qhexeditd
-   macx: QSCINTILLA_NAME=qscintilla2_qt5_debug
-   else: QSCINTILLA_NAME=qscintilla2_qt5d
+   QHEXEDIT_NAME=qhexedit
+   macx: QSCINTILLA_NAME=qscintilla2_qt5
+   else: QSCINTILLA_NAME=qscintilla2_qt5
 
 }
 

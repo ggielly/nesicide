@@ -4,6 +4,12 @@
 #undef PASCAL
 #define PASCAL
 
+#ifdef QTMFC_LIBRARY
+#  define QTMFC_EXPORT Q_DECL_EXPORT
+#else
+#  define QTMFC_EXPORT Q_DECL_IMPORT
+#endif
+
 #include <QDialogButtonBox>
 #include <QApplication>
 #include <QMainWindow>
@@ -3867,7 +3873,7 @@ typedef struct _AFX_THREAD_STATE
    struct _AFX_THREAD_STATE* GetData() { return (struct _AFX_THREAD_STATE*)this; }
 } _AFX_THREAD_STATE;
 
-class CWnd : public MFCWidget, public CCmdTarget, public QtUIElement
+class QTMFC_EXPORT CWnd : public MFCWidget, public CCmdTarget, public QtUIElement
 {
    Q_OBJECT
 
@@ -4259,7 +4265,7 @@ typedef void (AFX_MSG_CALL CWnd::*AFX_PMSGW)(void);
 class CView;
 class CDocument;
 class CCmdUI;
-class CFrameWnd : public CWnd
+class QTMFC_EXPORT CFrameWnd : public CWnd
 {
    Q_OBJECT
    // Qt interfaces
@@ -4344,7 +4350,7 @@ protected:
 };
 
 class CDocTemplate;
-class CDocument : public QObject, public CCmdTarget
+class QTMFC_EXPORT CDocument : public QObject, public CCmdTarget
 {
    Q_OBJECT
    DECLARE_DYNCREATE(CDocument)
@@ -4401,7 +4407,7 @@ protected:
    DECLARE_MESSAGE_MAP()
 };
 
-class CView : public CWnd
+class QTMFC_EXPORT CView : public CWnd
 {
    Q_OBJECT
    // Qt stuff
@@ -6527,7 +6533,7 @@ private:
    void commonAdd(CBitmap* pbmImage, CBitmap* pbmMask, COLORREF crMask);
 };
 
-class CPropertyPage : public CDialog
+class QTMFC_EXPORT CPropertyPage : public CDialog
 {
    Q_OBJECT
    DECLARE_DYNAMIC(CPropertyPage)
@@ -6552,7 +6558,7 @@ public:
    DECLARE_MESSAGE_MAP()
 };
 
-class CPropertySheet : public CWnd
+class QTMFC_EXPORT CPropertySheet : public CWnd
 {
    Q_OBJECT
    DECLARE_DYNAMIC(CPropertySheet)

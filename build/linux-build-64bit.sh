@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# Build script for 64-bit compilation
+
 # Check for prerequisites
 if [ -f "/etc/debian_version" ]; then
    echo "Checking for required packages..."
@@ -77,14 +79,17 @@ if [ ! -f "famiplayer/famiplayer.pro" ]; then
     cp ../apps/famiplayer/famiplayer.pro ./famiplayer/
 fi
 
-# add CONFIG+=debug to qmake to build debug.
-echo Building NESICIDE...
-( cd ide && qmake nesicide.pro -spec linux-g++ CONFIG+=debug && make QSCINTILLA_NAME=qscintilla2_qt5 QHEXEDIT_NAME=qhexedit )
-echo Building NES Emulator...
-( cd nes-emulator && qmake nesicide-emulator.pro -spec linux-g++ CONFIG+=debug && make )
-echo Building FamiTracker...
-( cd famitracker && qmake famitracker-app.pro -spec linux-g++ CONFIG+=debug && make )
-echo Building FamiPlayer...
-( cd famiplayer && qmake famiplayer.pro -spec linux-g++ CONFIG+=debug && make )
+# Build with 64-bit flags explicitly
+echo "Building NESICIDE with 64-bit architecture..."
+( cd ide && qmake nesicide.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
+
+echo "Building NES Emulator with 64-bit architecture..."
+( cd nes-emulator && qmake nesicide-emulator.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
+
+echo "Building FamiTracker with 64-bit architecture..."
+( cd famitracker && qmake famitracker-app.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
+
+echo "Building FamiPlayer with 64-bit architecture..."
+( cd famiplayer && qmake famiplayer.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
 
 exit 0
