@@ -1,0 +1,636 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>950</width>
+    <height>680</height>
+   </rect>
+  </property>
+  <property name="acceptDrops">
+   <bool>true</bool>
+  </property>
+  <property name="windowTitle">
+   <string>NESICIDE</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../common/resource.qrc">
+    <normaloff>:/resources/appicon.png</normaloff>:/resources/appicon.png</iconset>
+  </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
+  <property name="iconSize">
+   <size>
+    <width>24</width>
+    <height>24</height>
+   </size>
+  </property>
+  <property name="toolButtonStyle">
+   <enum>Qt::ToolButtonIconOnly</enum>
+  </property>
+  <property name="animated">
+   <bool>true</bool>
+  </property>
+  <property name="documentMode">
+   <bool>true</bool>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Triangular</enum>
+  </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
+  <property name="dockOptions">
+   <set>QMainWindow::AllowNestedDocks|QMainWindow::AnimatedDocks</set>
+  </property>
+  <widget class="QWidget" name="mainWidget">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item>
+     <widget class="CProjectTabWidget" name="tabWidget">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
+      <property name="contextMenuPolicy">
+       <enum>Qt::DefaultContextMenu</enum>
+      </property>
+      <property name="autoFillBackground">
+       <bool>true</bool>
+      </property>
+      <property name="tabPosition">
+       <enum>QTabWidget::North</enum>
+      </property>
+      <property name="tabShape">
+       <enum>QTabWidget::Rounded</enum>
+      </property>
+      <property name="currentIndex">
+       <number>0</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>25</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="elideMode">
+       <enum>Qt::ElideNone</enum>
+      </property>
+      <property name="usesScrollButtons">
+       <bool>true</bool>
+      </property>
+      <property name="documentMode">
+       <bool>true</bool>
+      </property>
+      <property name="tabsClosable">
+       <bool>true</bool>
+      </property>
+      <property name="movable">
+       <bool>true</bool>
+      </property>
+      <property name="tabBarAutoHide">
+       <bool>false</bool>
+      </property>
+      <widget class="QWidget" name="welcome">
+       <attribute name="title">
+        <string>Welcome</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_2">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+        <property name="spacing">
+         <number>0</number>
+        </property>
+        <item row="0" column="0">
+         <widget class="QWidget" name="webView" native="true">
+          <property name="acceptDrops">
+           <bool>false</bool>
+          </property>
+          <property name="url" stdset="0">
+           <url>
+            <string>https://nesicide.com</string>
+           </url>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>950</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuProject">
+    <property name="title">
+     <string>Project</string>
+    </property>
+    <widget class="QMenu" name="menuRecent_Projects_Files">
+     <property name="title">
+      <string>Recent Projects/Files...</string>
+     </property>
+     <addaction name="separator"/>
+    </widget>
+    <addaction name="actionNew_Project"/>
+    <addaction name="actionCreate_Project_from_File"/>
+    <addaction name="separator"/>
+    <addaction name="actionOpen_Project"/>
+    <addaction name="separator"/>
+    <addaction name="menuRecent_Projects_Files"/>
+    <addaction name="separator"/>
+    <addaction name="actionSave_Project"/>
+    <addaction name="actionSave_Project_As"/>
+    <addaction name="action_Close_Project"/>
+    <addaction name="separator"/>
+    <addaction name="actionCompile_Project"/>
+    <addaction name="actionLoad_In_Emulator"/>
+    <addaction name="actionClean_Project"/>
+    <addaction name="separator"/>
+    <addaction name="actionManage_Add_Ons"/>
+    <addaction name="actionProject_Properties"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="actionOnline_Help"/>
+    <addaction name="separator"/>
+    <addaction name="action_About_Nesicide"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <widget class="QMenu" name="menuDebugger">
+    <property name="title">
+     <string>Debugger</string>
+    </property>
+    <addaction name="actionExecution_Inspector"/>
+    <addaction name="actionCode_Profiler"/>
+    <addaction name="actionSymbol_Watch"/>
+   </widget>
+   <widget class="QMenu" name="menuEmulator">
+    <property name="title">
+     <string>Emulator</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuNESICIDE">
+    <property name="title">
+     <string>NESICIDE</string>
+    </property>
+    <addaction name="actionSave_Active_Document"/>
+    <addaction name="separator"/>
+    <addaction name="actionEnvironment_Settings"/>
+    <addaction name="separator"/>
+    <addaction name="actionE_xit"/>
+   </widget>
+   <widget class="QMenu" name="menuEdit">
+    <property name="title">
+     <string>Edit</string>
+    </property>
+    <addaction name="actionSearch"/>
+    <addaction name="separator"/>
+   </widget>
+   <widget class="QMenu" name="menuWindow">
+    <property name="title">
+     <string>Window</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="action_Project_Browser"/>
+    <addaction name="actionOutput_Window"/>
+    <addaction name="separator"/>
+    <addaction name="actionCoding_Mode"/>
+    <addaction name="actionDebugging_Mode"/>
+    <addaction name="separator"/>
+   </widget>
+   <addaction name="menuNESICIDE"/>
+   <addaction name="menuProject"/>
+   <addaction name="menuView"/>
+   <addaction name="menuEdit"/>
+   <addaction name="menuEmulator"/>
+   <addaction name="menuDebugger"/>
+   <addaction name="menuWindow"/>
+   <addaction name="menu_Help"/>
+  </widget>
+  <widget class="QToolBar" name="projectToolBar">
+   <property name="windowTitle">
+    <string>Project Toolbar</string>
+   </property>
+   <property name="iconSize">
+    <size>
+     <width>24</width>
+     <height>24</height>
+    </size>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNew_Project"/>
+   <addaction name="separator"/>
+   <addaction name="actionOpen_Project"/>
+   <addaction name="actionSave_Project"/>
+   <addaction name="action_Close_Project"/>
+   <addaction name="separator"/>
+   <addaction name="actionProject_Properties"/>
+   <addaction name="actionManage_Add_Ons"/>
+  </widget>
+  <widget class="QToolBar" name="compilerToolbar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="windowTitle">
+    <string>Compiler Toolbar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionClean_Project"/>
+   <addaction name="actionCompile_Project"/>
+   <addaction name="actionLoad_In_Emulator"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QToolBar" name="toolToolbar">
+   <property name="windowTitle">
+    <string>Panel Toolbar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="action_Project_Browser"/>
+   <addaction name="separator"/>
+   <addaction name="actionOutput_Window"/>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QStatusBar" name="appStatusBar">
+   <property name="sizeGripEnabled">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QToolBar" name="searchToolBar">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="minimumSize">
+    <size>
+     <width>0</width>
+     <height>0</height>
+    </size>
+   </property>
+   <property name="windowTitle">
+    <string>Search Toolbar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionSearch"/>
+  </widget>
+  <action name="actionE_xit">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/stock_exit.png</normaloff>:/resources/stock_exit.png</iconset>
+   </property>
+   <property name="text">
+    <string>E&amp;xit</string>
+   </property>
+   <property name="statusTip">
+    <string>Exit the application.</string>
+   </property>
+  </action>
+  <action name="actionNew_Project">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_document-new.png</normaloff>:/resources/22_document-new.png</iconset>
+   </property>
+   <property name="text">
+    <string>New &amp;Project...</string>
+   </property>
+   <property name="toolTip">
+    <string>New Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+N</string>
+   </property>
+  </action>
+  <action name="actionOpen_Project">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/document-open.png</normaloff>:/resources/document-open.png</iconset>
+   </property>
+   <property name="text">
+    <string>Open &amp;Project...</string>
+   </property>
+   <property name="toolTip">
+    <string>Open Project...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+O</string>
+   </property>
+  </action>
+  <action name="actionSave_Project">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_document-save.png</normaloff>:/resources/22_document-save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save &amp;Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+S</string>
+   </property>
+  </action>
+  <action name="actionSave_Project_As">
+   <property name="text">
+    <string>Save Project &amp;As...</string>
+   </property>
+   <property name="iconText">
+    <string>Save Project As...</string>
+   </property>
+  </action>
+  <action name="action_Project_Browser">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/folder-system.png</normaloff>:/resources/folder-system.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Project Browser</string>
+   </property>
+  </action>
+  <action name="actionProject_Properties">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_preferences-other.png</normaloff>:/resources/22_preferences-other.png</iconset>
+   </property>
+   <property name="text">
+    <string>Project &amp;Properties...</string>
+   </property>
+   <property name="toolTip">
+    <string>Project Properties</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+P</string>
+   </property>
+  </action>
+  <action name="actionCreate_Project_from_File">
+   <property name="text">
+    <string>Create Project from Existing Image...</string>
+   </property>
+   <property name="toolTip">
+    <string>Create project from a ROM</string>
+   </property>
+  </action>
+  <action name="actionSave_Active_Document">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/stock_save.png</normaloff>:/resources/stock_save.png</iconset>
+   </property>
+   <property name="text">
+    <string>Save Active Document</string>
+   </property>
+   <property name="toolTip">
+    <string>Save the currently selected document.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionOutput_Window">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_utilities-terminal.png</normaloff>:/resources/22_utilities-terminal.png</iconset>
+   </property>
+   <property name="text">
+    <string>Output Window</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+O</string>
+   </property>
+  </action>
+  <action name="actionCompile_Project">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_run-build.png</normaloff>:/resources/22_run-build.png</iconset>
+   </property>
+   <property name="text">
+    <string>Compile Project</string>
+   </property>
+   <property name="shortcut">
+    <string>F5</string>
+   </property>
+  </action>
+  <action name="actionExecution_Inspector">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_execution.png</normaloff>:/resources/22_execution.png</iconset>
+   </property>
+   <property name="text">
+    <string>Execution Inspector</string>
+   </property>
+   <property name="toolTip">
+    <string>Execution Inspector</string>
+   </property>
+  </action>
+  <action name="action_About_Nesicide">
+   <property name="text">
+    <string>About NESICIDE</string>
+   </property>
+  </action>
+  <action name="action_Close_Project">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/edit_delete.png</normaloff>:/resources/edit_delete.png</iconset>
+   </property>
+   <property name="text">
+    <string>&amp;Close Project</string>
+   </property>
+  </action>
+  <action name="actionEnvironment_Settings">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_preferences-other.png</normaloff>:/resources/22_preferences-other.png</iconset>
+   </property>
+   <property name="text">
+    <string>Environment Settings...</string>
+   </property>
+  </action>
+  <action name="actionOnline_Help">
+   <property name="text">
+    <string>Online Documentation</string>
+   </property>
+  </action>
+  <action name="actionLoad_In_Emulator">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_cpu_ram.png</normaloff>:/resources/22_cpu_ram.png</iconset>
+   </property>
+   <property name="text">
+    <string>Load In Emulator</string>
+   </property>
+   <property name="shortcut">
+    <string>F6</string>
+   </property>
+  </action>
+  <action name="actionSymbol_Watch">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/find.png</normaloff>:/resources/find.png</iconset>
+   </property>
+   <property name="text">
+    <string>Symbol Inspector</string>
+   </property>
+  </action>
+  <action name="actionClean_Project">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_edit-clear.png</normaloff>:/resources/22_edit-clear.png</iconset>
+   </property>
+   <property name="text">
+    <string>Clean Project</string>
+   </property>
+   <property name="toolTip">
+    <string>Clean Project</string>
+   </property>
+  </action>
+  <action name="actionSearch">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/22_code_inspector.png</normaloff>:/resources/22_code_inspector.png</iconset>
+   </property>
+   <property name="text">
+    <string>Search</string>
+   </property>
+   <property name="toolTip">
+    <string>Search</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+F</string>
+   </property>
+  </action>
+  <action name="actionCode_Profiler">
+   <property name="text">
+    <string>Code Profiler</string>
+   </property>
+   <property name="toolTip">
+    <string>Code Profiler</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionCoding_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Coding Mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+C</string>
+   </property>
+  </action>
+  <action name="actionDebugging_Mode">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Debugging Mode</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Shift+D</string>
+   </property>
+  </action>
+  <action name="actionManage_Add_Ons">
+   <property name="icon">
+    <iconset resource="../../common/resource.qrc">
+     <normaloff>:/resources/icons8-swiss_army_knife.png</normaloff>:/resources/icons8-swiss_army_knife.png</iconset>
+   </property>
+   <property name="text">
+    <string>Manage Add-Ons...</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>CProjectTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header location="global">cprojecttabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources>
+  <include location="../../common/resource.qrc"/>
+ </resources>
+ <connections>
+  <connection>
+   <sender>actionE_xit</sender>
+   <signal>activated()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

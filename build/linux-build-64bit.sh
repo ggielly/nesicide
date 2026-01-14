@@ -92,7 +92,7 @@ echo "Building FamiTracker-Qt with 64-bit architecture..."
 ( cd build/famitracker-qt/src && qmake famitracker-qt.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
 
 echo "Skipping NESICIDE and FamiPlayer builds due to dependency on problematic famitracker library..."
-# ( cd build/ide && qmake nesicide.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
+( cd build/ide && qmake nesicide.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
 # ( cd build/famiplayer && qmake famiplayer.pro -spec linux-g++ "QMAKE_CFLAGS+=-m64" "QMAKE_CXXFLAGS+=-m64" "QMAKE_LFLAGS+=-m64" CONFIG+=debug && make )
 
 exit 0

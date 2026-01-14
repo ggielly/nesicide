@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<plugin 
+	caption="Palette Editor"
+	author="Essial [tim.sarbin@gmail.com]"
+	domain="com.nesicide.paletteeditor"
+	version="20100727">
+	<desc>A Palette Designer.</desc>
+	<logic onLoad="sayHi"><![CDATA[
+		function sayHi ()
+			compiler_logger_print("Hello from after the script has been loaded!");
+		end
+		compiler_logger_print("Hello from palette editor lua script!");
+	]]></logic>
+</plugin>

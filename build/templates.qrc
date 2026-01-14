@@ -1,0 +1,32 @@
+<RCC>
+    <qresource prefix="/">
+        <file>templates/NES/Hello World - CA65 Assembly/nes.ini</file>
+        <file>templates/NES/Hello World - CA65 Assembly/src/main.s</file>
+        <file>templates/NES/Hello World - CA65 Assembly/src/nes.h</file>
+        <file>templates/NES/Hello World - CA65 Assembly/tilesets/gamegfx.png</file>
+        <file>templates/NES/Hello World - CA65 Assembly/tilesets/titlegfx.png</file>
+        <file>templates/NES/Hello World - CC65 C/nes.ini</file>
+        <file>templates/NES/Hello World - CC65 C/src/crt0.s</file>
+        <file>templates/NES/Hello World - CC65 C/src/main.c</file>
+        <file>templates/NES/Hello World - CC65 C/src/memmap.inc</file>
+        <file>templates/NES/Hello World - CC65 C/tilesets/gamegfx.png</file>
+        <file>templates/NES/Hello World - CC65 C/tilesets/titlegfx.png</file>
+        <file>templates/NES/Hello World - UC/lib/crt0.s</file>
+        <file>templates/NES/Hello World - UC/source/data.uc</file>
+        <file>templates/NES/Hello World - UC/source/main.uc</file>
+        <file>templates/NES/Hello World - UC/source/nes.uc</file>
+        <file>templates/NES/Hello World - UC/nes.ini</file>
+        <file>templates/NES/Hello World - UC/uc.mk</file>
+        <file>templates/NES/Hello World - UC/data/graphics.atr</file>
+        <file>templates/NES/Hello World - UC/data/graphics.chr</file>
+        <file>templates/NES/Hello World - UC/data/graphics.nam</file>
+        <file>templates/NES/Hello World - UC/data/graphics.pal</file>
+        <file>templates/NES/Hello World - CA65 Assembly/header.s_in</file>
+        <file>templates/NES/Hello World - CC65 C/header.s_in</file>
+        <file>templates/NES/Hello World - UC/header.s_in</file>
+        <file>templates/NES/Hello World - CA65 Assembly/template.nesproject_in</file>
+        <file>templates/NES/Hello World - CC65 C/template.nesproject_in</file>
+        <file>templates/NES/Hello World - UC/template.nesproject_in</file>
+        <file>templates/NES/Hello World - CC65 C/c.mk</file>
+    </qresource>
+</RCC>
