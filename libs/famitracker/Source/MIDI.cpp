@@ -49,7 +49,7 @@ CMIDI *CMIDI::m_pInstance = NULL;
 //	}
 //}
 
-void CALLBACK CMIDI::RtMidiInProc( double timeStamp, std::vector<unsigned char> *message, void *userData)
+void CMIDI::RtMidiInProc( double timeStamp, std::vector<unsigned char> *message, void *userData)
 {
    // MIDI input callback function
 

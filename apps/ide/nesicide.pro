@@ -515,7 +515,6 @@ HEADERS += \
    interfaces/ichrrombankitem.h \
    interfaces/iprojecttreeviewitem.h \
    interfaces/ixmlserializable.h \
-   main.h \
    mainwindow.h \
    outputpanedockwidget.h \
    plugins/cpluginmanager.h \

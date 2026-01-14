@@ -81,7 +81,7 @@ private:
 	// Static functions & variables
 private:
 //   static void CALLBACK MidiInProc(HMIDIIN hMidiIn, UINT wMsg, DWORD dwInstance, DWORD dwParam1, DWORD dwParam2);
-   static void CALLBACK RtMidiInProc( double timeStamp, std::vector<unsigned char> *message, void *userData);
+   static void RtMidiInProc( double timeStamp, std::vector<unsigned char> *message, void *userData);
    static CMIDI *m_pInstance;
 
 	// Private variables
