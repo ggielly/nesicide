@@ -68,7 +68,11 @@ INCLUDEPATH += \
    $$TOP/common
 
 # Boost is (thankfully) a generic dependency.
-BOOST_CXXFLAGS=-I$$DEPENDENCYROOTPATH/boost_1_64_0
+# Try system boost first, then fallback to local boost_1_64_0
+BOOST_CXXFLAGS=-I/usr/include/boost
+!exists(/usr/include/boost/version.hpp) {
+    BOOST_CXXFLAGS=-I$$DEPENDENCYROOTPATH/boost_1_64_0
+}
 
 win32 {
     contains(QT_ARCH, i386) {
@@ -95,6 +99,8 @@ mac {
 unix:!mac {
     SDL_CXXFLAGS = $$system(sdl-config --cflags)
     SDL_LIBS = $$system(sdl-config --libs)
+    # Add explicit SDL include path as fallback
+    SDL_CXXFLAGS += -I/usr/include/SDL
 
     WINE_CXXFLAGS = -I $$DEPENDENCYROOTPATH/wine/include -DUSE_WS_PREFIX -DWINE_UNICODE_NATIVE
 

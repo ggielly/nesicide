@@ -17,30 +17,66 @@ This project contains the following products:
 The following steps are required prior to building this project on any platform.
 
 0. Install `git`
-1. Install [Qt 5.12.6](http://download.qt.io/archive/qt/5.12/5.12.6/) as it was the latest kit to be verified to build NESICIDE properly without errors. Please do not use a kit later than this, or if you do, please create a pull request with necessary changes.
+1. Install Qt 5.15 or later (tested with Qt 5.15.17). While Qt 5.12.6 was originally recommended, the project now builds successfully with newer Qt 5 versions.
 2. Make sure qmake and your Qt installation is in your PATH.
 
-At the time of writing this Mac OS Homewbrew contains Qt 5.14.1 and NESICIDE can also be built with that version of Qt. So, alternatively, you can install Qt using
-
-   ```
-   brew intall qt5
-   ```
-
-### Debian prerequisites
+### Debian/Ubuntu prerequisites
 
 ```sh
-sudo apt-get install qtchooser build-essential libasound2-dev liblua5.1-dev libsdl1.2-dev libgl1-mesa-dev 
+sudo apt update
+sudo apt install -y git qt5-qmake qtbase5-dev qtbase5-dev-tools libqt5opengl5-dev \
+    build-essential libasound2-dev liblua5.1-dev \
+    libsdl1.2-dev libgl1-mesa-dev libjack-jackd2-dev \
+    libqt5svg5-dev libqt5xmlpatterns5-dev
 ```
 
 ### Arch Linux prerequisites
 
 ```sh
-sudo pacman -S lua sdl mesa wine
+sudo pacman -S git qt5-base qt5-tools lua sdl mesa wine jack
 ```
+
+### Missing Dependencies
+
+The project requires several dependencies that are not included in the repository:
+
+1. **RtMidi**: MIDI library - will be automatically downloaded during build
+2. **Boost**: C++ libraries - required for FamiTracker (version 1.64.0)
+3. **QScintilla2**: Advanced text editor component
+4. **QHexEdit2**: Hex editor component
+
+If these are missing, the build script will attempt to download them from the original sources.
 
 ### Windows prerequisites
 
 Install [GnuWin32](https://sourceforge.net/projects/getgnuwin32/) and [wget](http://gnuwin32.sourceforge.net/packages/wget.htm).
+
+## Known Issues and Solutions
+
+### Qt Version Compatibility
+
+While the project was originally designed for Qt 5.12.6, it now builds successfully with Qt 5.15.x. If you encounter issues with newer Qt versions:
+
+- **Solution 1**: Install Qt 5.15 LTS: `sudo apt install qt515base qt515-tools`
+- **Solution 2**: Use the `greaterThan(QT_MAJOR_VERSION,5)` checks already present in the .pro files
+
+### Missing RtMidi
+
+If you get errors about missing RtMidi:
+
+```sh
+cd deps
+git clone https://github.com/thestk/rtmidi.git rtmidi-source
+cp rtmidi-source/RtMidi.h rtmidi/
+```
+
+### SDL not found
+
+If SDL headers are not found, ensure you have `libsdl1.2-dev` installed and add the include path manually:
+
+```sh
+sudo apt install libsdl1.2-dev
+```
 
 ## Building
 
