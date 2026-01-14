@@ -43,9 +43,19 @@ The project requires several dependencies that are not included in the repositor
 1. **RtMidi**: MIDI library - will be automatically downloaded during build
 2. **Boost**: C++ libraries - required for FamiTracker (version 1.64.0)
 3. **QScintilla2**: Advanced text editor component
-4. **QHexEdit2**: Hex editor component
+4. **QHexEdit2**: Hex editor component - needs to be manually downloaded
 
-If these are missing, the build script will attempt to download them from the original sources.
+If these are missing, the build script will attempt to download them from the original sources. For QHexEdit2, you'll need to manually clone it:
+
+```sh
+cd deps
+git clone https://github.com/Simsys/qhexedit2.git
+cd qhexedit2/src
+qmake qhexedit.pro
+make
+mkdir -p ../lib
+cp libqhexedit.so* ../lib/
+```
 
 ### Windows prerequisites
 

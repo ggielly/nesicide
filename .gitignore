@@ -37,3 +37,9 @@ rcParser*
 rcVisitor*
 rcListener*
 /build/nesicide-deps.tar.bz2
+build/**/*.o
+build/**/moc_*
+build/**/ui_*.h
+build/**/ui_*.cpp
+build/**/Makefile*
+build/**/.qmake.stash

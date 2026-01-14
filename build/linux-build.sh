@@ -1,37 +1,90 @@
 #!/bin/bash
 
-#
-#if [ -f "/etc/debian_version" ]; then
-#   sudo apt install build-essential libasound2-dev liblua5.1-dev libsdl1.2-dev \
-#		libgl1-mesa-dev wine-dev libqt5opengl5-dev
-#fi
+# Check for prerequisites
+if [ -f "/etc/debian_version" ]; then
+   echo "Checking for required packages..."
+   if ! command -v qmake &> /dev/null; then
+       echo "qmake not found. Please install Qt5 development packages."
+       echo "Run: sudo apt install qt5-qmake qtbase5-dev qtbase5-dev-tools libqt5opengl5-dev"
+       exit 1
+   fi
+fi
 
-# check for deps
-#echo -n "Checking for dependencies package..."
-#if [ ! -d "deps" ]; then
-#if [ ! -d "../deps" ]; then
-#   cd ..
-#   echo "Fetching dependencies package..."
-#   wget -q https://knob.phreneticappsllc.com/nesicide/nesicide-deps.tar.bz2
-#   echo "Extracting dependencies package..."
-#   tar -xjf nesicide-deps.tar.bz2 
-#   rm -f nesicide-deps.tar.bz2
-#   echo "Building dependencies..."
-#
-#  echo "Building dependencies..."
-#   cd deps/rtmidi && qmake && make
-#else
-#   echo "found."
-#fi
+# Ensure dependencies are built
+echo "Checking dependencies..."
+
+# Save current directory to return to it later
+ORIGINAL_DIR=$(pwd)
+
+# Build RtMidi if not already built
+if [ ! -f "../deps/rtmidi/librtmidi.a" ] && [ ! -f "../deps/rtmidi/debug/librtmidi.a" ] && [ ! -f "../deps/rtmidi/release/librtmidi.a" ]; then
+    echo "Building RtMidi library..."
+    cd ../deps/rtmidi
+    qmake rtmidi.pro
+    make
+    cd "$ORIGINAL_DIR"
+fi
+
+# Build QHexEdit2 if not already built
+if [ ! -f "../deps/qhexedit2/src/libqhexedit.so" ] && [ ! -f "../deps/qhexedit2/lib/libqhexedit.so" ]; then
+    echo "Building QHexEdit2 library..."
+    cd ../deps
+    if [ ! -d "qhexedit2" ]; then
+        echo "Cloning QHexEdit2..."
+        git clone https://github.com/Simsys/qhexedit2.git
+    fi
+    cd qhexedit2/src
+    qmake qhexedit.pro
+    make
+    mkdir -p ../lib
+    cp libqhexedit.so* ../lib/
+    cd "$ORIGINAL_DIR"
+fi
+
+# Build QScintilla2 if not already built
+if [ ! -f "../deps/qscintilla2/src/libqscintilla2_qt5.so" ]; then
+    echo "Building QScintilla2 library..."
+    cd ../deps/qscintilla2/src
+    qmake qscintilla.pro CONFIG+=staticlib
+    make
+    cd "$ORIGINAL_DIR"
+fi
+
+# Copy source files to build directories if they don't exist
+echo "Preparing build directories..."
+if [ ! -f "ide/nesicide.pro" ]; then
+    echo "Copying IDE source files to build directory..."
+    cp -r ../apps/ide/* ./ide/
+    # Copy the project file specifically
+    cp ../apps/ide/nesicide.pro ./ide/
+fi
+
+if [ ! -f "nes-emulator/nesicide-emulator.pro" ]; then
+    echo "Copying NES Emulator source files to build directory..."
+    cp -r ../apps/nes-emulator/* ./nes-emulator/
+    cp ../apps/nes-emulator/nesicide-emulator.pro ./nes-emulator/
+fi
+
+if [ ! -f "famitracker/famitracker-app.pro" ]; then
+    echo "Copying FamiTracker source files to build directory..."
+    cp -r ../apps/famitracker/* ./famitracker/
+    cp ../apps/famitracker/famitracker-app.pro ./famitracker/
+fi
+
+if [ ! -f "famiplayer/famiplayer.pro" ]; then
+    echo "Copying FamiPlayer source files to build directory..."
+    cp -r ../apps/famiplayer/* ./famiplayer/
+    cp ../apps/famiplayer/famiplayer.pro ./famiplayer/
+fi
 
 # add CONFIG+=debug to qmake to build debug.
 echo Building NESICIDE...
-( cd ide; qmake CONFIG+=debug; make )
-echo Building FamiTracker...
-( cd nes-emulator; qmake; make )
-echo Building FamiPlayer...
-( cd famiplayer; qmake; make )
+( cd ide && qmake nesicide.pro -spec linux-g++ CONFIG+=debug && make )
 echo Building NES Emulator...
-( cd famitracker; qmake; make )
+( cd nes-emulator && qmake nesicide-emulator.pro -spec linux-g++ CONFIG+=debug && make )
+echo Building FamiTracker...
+( cd famitracker && qmake famitracker-app.pro -spec linux-g++ CONFIG+=debug && make )
+echo Building FamiPlayer...
+( cd famiplayer && qmake famiplayer.pro -spec linux-g++ CONFIG+=debug && make )
 
 exit 0
