@@ -57,31 +57,31 @@ echo "Preparing build directories..."
 if [ ! -f "build/ide/nesicide.pro" ]; then
     echo "Copying IDE source files to build directory..."
     mkdir -p build/ide
-    cp -r ../apps/ide/* ./build/ide/
+    cp -r apps/ide/* ./build/ide/
     # Copy the project file specifically
-    cp ../apps/ide/nesicide.pro ./build/ide/
+    cp apps/ide/nesicide.pro ./build/ide/
 fi
 
 if [ ! -f "build/nes-emulator/nesicide-emulator.pro" ]; then
     echo "Copying NES Emulator source files to build directory..."
     mkdir -p build/nes-emulator
-    cp -r ../apps/nes-emulator/* ./build/nes-emulator/
-    cp ../apps/nes-emulator/nesicide-emulator.pro ./build/nes-emulator/
+    cp -r apps/nes-emulator/* ./build/nes-emulator/
+    cp apps/nes-emulator/nesicide-emulator.pro ./build/nes-emulator/
 fi
 
 if [ ! -f "build/famitracker-qt/src/famitracker-qt.pro" ]; then
     echo "Copying FamiTracker-Qt source files to build directory..."
     mkdir -p build/famitracker-qt/src
-    cp -r ../apps/famitracker-qt/src/* ./build/famitracker-qt/src/
-    cp ../apps/famitracker-qt/src/famitracker-qt.pro ./build/famitracker-qt/
+    cp -r apps/famitracker-qt/src/* ./build/famitracker-qt/src/
+    cp apps/famitracker-qt/src/famitracker-qt.pro ./build/famitracker-qt/
 fi
 
 # Skipping FamiPlayer setup due to dependency on problematic famitracker library
 # if [ ! -f "build/famiplayer/famiplayer.pro" ]; then
 #     echo "Copying FamiPlayer source files to build directory..."
 #     mkdir -p build/famiplayer
-#     cp -r ../apps/famiplayer/* ./build/famiplayer/
-#     cp ../apps/famiplayer/famiplayer.pro ./build/famiplayer/
+#     cp -r apps/famiplayer/* ./build/famiplayer/
+#     cp apps/famiplayer/famiplayer.pro ./build/famiplayer/
 # fi
 
 # Build with 64-bit flags explicitly

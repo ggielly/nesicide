@@ -21,7 +21,8 @@ PRGROMDisplayDialog::PRGROMDisplayDialog(uint8_t* bankData,IProjectTreeViewItem*
 
    m_editor->setData(QByteArray((const char*)m_data,MEM_8KB));
    m_editor->setReadOnly(true);
-   m_editor->setAddressArea(true);
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginBackgroundColor());
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginForegroundColor());
    m_editor->setHexCaps(true);
 
 #if defined(Q_OS_MAC) || defined(Q_OS_MACX) || defined(Q_OS_MAC64)
@@ -66,6 +67,7 @@ void PRGROMDisplayDialog::showEvent(QShowEvent* /*e*/)
 
 void PRGROMDisplayDialog::applyEnvironmentSettingsToTab()
 {
-   m_editor->setAddressArea(true);
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginBackgroundColor());
+   m_editor->setAddressAreaColor(EnvironmentSettingsDialog::marginForegroundColor());
    m_editor->update();
 }

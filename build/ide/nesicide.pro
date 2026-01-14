@@ -62,9 +62,9 @@ CONFIG(release, debug|release) {
     win32:QHEXEDIT_NAME=qhexedit4
     else:QHEXEDIT_NAME=qhexedit
 } else {
-   QHEXEDIT_NAME=qhexeditd
-   macx: QSCINTILLA_NAME=qscintilla2_qt5_debug
-   else: QSCINTILLA_NAME=qscintilla2_qt5d
+   QHEXEDIT_NAME=qhexedit
+   macx: QSCINTILLA_NAME=qscintilla2_qt5
+   else: QSCINTILLA_NAME=qscintilla2_qt5
 
 }
 
@@ -88,8 +88,8 @@ NES_LIBS = -L$$TOP/libs/nes/$$DESTDIR -lnes-emulator
 C64_CXXFLAGS = -I$$TOP/libs/c64 -I$$TOP/libs/c64/emulator -I$$TOP/libs/c64/common
 C64_LIBS = -L$$TOP/libs/c64/$$DESTDIR -lc64-emulator
 
-#FAMITRACKER_CXXFLAGS = -I$$TOP/libs/famitracker
-#FAMITRACKER_LIBS = -L$$TOP/libs/famitracker/$$DESTDIR #-lfamitracker
+FAMITRACKER_CXXFLAGS = -I$$TOP/libs/famitracker
+FAMITRACKER_LIBS = -L$$TOP/libs/famitracker/$$DESTDIR -lfamitracker
 
 RTMIDI_LIBS = -L$$DEPENDENCYROOTPATH/rtmidi/$$DESTDIR -lrtmidi
 RTMIDI_CXXFLAGS = -I$$DEPENDENCYROOTPATH/rtmidi
@@ -121,6 +121,8 @@ mac {
 
    QMAKE_PRE_LINK += cp $$TOP/libs/famitracker/$$DESTDIR/*.dylib \
       $$DESTDIR/$${TARGET}.app/Contents/Frameworks/ $$escape_expand(\n\t)
+   QMAKE_POST_LINK += install_name_tool -change libfamitracker.1.dylib \
+       @executable_path/../Frameworks/libfamitracker.1.dylib \
        $$DESTDIR/$${TARGET}.app/Contents/MacOS/nesicide $$escape_expand(\n\t)
 
    QMAKE_PRE_LINK += cp $$DEPENDENCYROOTPATH/rtmidi/$$DESTDIR/*.dylib \
@@ -165,7 +167,7 @@ mac {
 }
 
 unix:!mac {
-   #FAMITRACKER_LFLAGS = -Wl,-rpath=\"$$PWD/$$TOP/libs/famitracker\"
+   FAMITRACKER_LFLAGS = -Wl,-rpath=\"$$PWD/$$TOP/libs/famitracker\"
    NES_LFLAGS = -Wl,-rpath=\"$$PWD/$$TOP/libs/nes\"
    C64_LFLAGS = -Wl,-rpath=\"$$PWD/$$TOP/libs/nes\"
 
@@ -230,19 +232,19 @@ QMAKE_CXXFLAGS += -w
 QMAKE_CXXFLAGS += -DIDE \
                   $$NES_CXXFLAGS \
                   $$C64_CXXFLAGS \
-                  $$#FAMITRACKER_CXXFLAGS \
+                  $$FAMITRACKER_CXXFLAGS \
                   $$SDL_CXXFLAGS \
                   $$LUA_CXXFLAGS \
                   $$SCINTILLA_CXXFLAGS \
                   $$HEXEDIT_CXXFLAGS \
                   $$RTMIDI_CXXFLAGS
-QMAKE_LFLAGS += $$#FAMITRACKER_LFLAGS \
+QMAKE_LFLAGS += $$FAMITRACKER_LFLAGS \
                 $$NES_LFLAGS \
                 $$C64_LFLAGS
 
 LIBS += $$NES_LIBS \
         $$C64_LIBS \
-        $$#FAMITRACKER_LIBS \
+        $$FAMITRACKER_LIBS \
         $$SDL_LIBS \
         $$LUA_LIBS \
         $$SCINTILLA_LIBS \
