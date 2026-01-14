@@ -65,10 +65,11 @@ if [ ! -f "nes-emulator/nesicide-emulator.pro" ]; then
     cp ../apps/nes-emulator/nesicide-emulator.pro ./nes-emulator/
 fi
 
-if [ ! -f "famitracker/famitracker-app.pro" ]; then
-    echo "Copying FamiTracker source files to build directory..."
-    cp -r ../apps/famitracker/* ./famitracker/
-    cp ../apps/famitracker/famitracker-app.pro ./famitracker/
+if [ ! -f "famitracker-qt/src/famitracker-qt.pro" ]; then
+    echo "Copying FamiTracker-Qt source files to build directory..."
+    mkdir -p ./famitracker-qt/src
+    cp -r ../apps/famitracker-qt/src/* ./famitracker-qt/src/
+    cp ../apps/famitracker-qt/src/famitracker-qt.pro ./famitracker-qt/
 fi
 
 if [ ! -f "famiplayer/famiplayer.pro" ]; then
@@ -82,8 +83,8 @@ echo Building NESICIDE...
 ( cd ide && qmake nesicide.pro -spec linux-g++ CONFIG+=debug && make QSCINTILLA_NAME=qscintilla2_qt5 QHEXEDIT_NAME=qhexedit )
 echo Building NES Emulator...
 ( cd nes-emulator && qmake nesicide-emulator.pro -spec linux-g++ CONFIG+=debug && make )
-echo Building FamiTracker...
-( cd famitracker && qmake famitracker-app.pro -spec linux-g++ CONFIG+=debug && make )
+echo Building FamiTracker-Qt...
+( cd famitracker-qt/src && qmake famitracker-qt.pro -spec linux-g++ CONFIG+=debug && make )
 echo Building FamiPlayer...
 ( cd famiplayer && qmake famiplayer.pro -spec linux-g++ CONFIG+=debug && make )
 

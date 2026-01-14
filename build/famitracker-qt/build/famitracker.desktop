@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=FamiTracker-Qt
+Exec=../build/famitracker-qt/build/famitracker
+Icon=famitracker.png
+Type=Application
+Categories=Development;
+Comment=NES Music Tracker
+Terminal=false
