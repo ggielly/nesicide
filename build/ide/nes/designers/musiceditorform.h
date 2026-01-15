@@ -4,7 +4,8 @@
 #include "cdesignereditorbase.h"
 #include "cdesignercommon.h"
 
-#include "Source/MainFrm.h"
+// Disable FamiTracker MFC integration for Linux build
+// #include "Source/MainFrm.h"
 
 #include <QWidget>
 #include <QToolBar>

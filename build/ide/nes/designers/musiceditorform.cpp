@@ -1,14 +1,12 @@
 #include "musiceditorform.h"
 #include "ui_musiceditorform.h"
 
-#include "cqtmfc_famitracker.h"
-
-#include "cqtmfc.h"
-
-#include "cnesicideproject.h"
-
-#include "Source/FamiTrackerDoc.h"
-#include "Source/TextExporter.h"
+// Disable FamiTracker MFC integration for Linux build
+// #include "cqtmfc_famitracker.h"
+// #include "cqtmfc.h"
+// #include "cnesicideproject.h"
+// #include "Source/FamiTrackerDoc.h"
+// #include "Source/TextExporter.h"
 
 #include <QDir>
 
@@ -30,25 +28,27 @@ MusicEditorForm::MusicEditorForm(QString fileName,QByteArray musicData,IProjectT
 {
    ui->setupUi(this);
    
+   // Disable FamiTracker MFC integration for Linux build
    // Initialize FamiTracker...
-   ideifyFamiTracker();
-   qtMfcInit(this);
-   AfxGetApp()->InitInstance();
-   
-   CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
-   setCentralWidget(pMainFrame->toQWidget());
-   pMainFrame->toQWidget()->setAcceptDrops(true);
+   // ideifyFamiTracker();
+   // qtMfcInit(this);
+   // AfxGetApp()->InitInstance();
+   // 
+   // CMainFrame* pMainFrame = (CMainFrame*)AfxGetMainWnd();
+   // setCentralWidget(pMainFrame->toQWidget());
+   // pMainFrame->toQWidget()->setAcceptDrops(true);
 
-   QObject::connect(AfxGetApp()->m_pMainWnd,SIGNAL(addToolBarWidget(QToolBar*)),this,SIGNAL(addToolBarWidget(QToolBar*)));
-   QObject::connect(AfxGetApp()->m_pMainWnd,SIGNAL(removeToolBarWidget(QToolBar*)),this,SIGNAL(removeToolBarWidget(QToolBar*)));
-   QObject::connect(AfxGetApp()->m_pMainWnd,SIGNAL(editor_modificationChanged(bool)),this,SLOT(editor_modificationChanged(bool)));
+   // QObject::connect(AfxGetApp()->m_pMainWnd,SIGNAL(addToolBarWidget(QToolBar*)),this,SIGNAL(addToolBarWidget(QToolBar*)));
+   // QObject::connect(AfxGetApp()->m_pMainWnd,SIGNAL(removeToolBarWidget(QToolBar*)),this,SIGNAL(removeToolBarWidget(QToolBar*)));
+   // QObject::connect(AfxGetApp()->m_pMainWnd,SIGNAL(editor_modificationChanged(bool)),this,SLOT(editor_modificationChanged(bool)));
 }
 
 MusicEditorForm::~MusicEditorForm()
 {
+   // Disable FamiTracker MFC integration for Linux build
    // Close FamiTracker.
-   AfxGetMainWnd()->OnClose();   
-   AfxGetApp()->ExitInstance();
+   // AfxGetMainWnd()->OnClose();
+   // AfxGetApp()->ExitInstance();
 
    delete ui;
 }
@@ -81,14 +81,16 @@ void MusicEditorForm::onSave()
 {
    CDesignerEditorBase::onSave();
 
-   AfxGetMainWnd()->SendMessage(ID_FILE_SAVE);
-   
+   // Disable FamiTracker MFC integration for Linux build
+   // AfxGetMainWnd()->SendMessage(ID_FILE_SAVE);
+   // 
    setModified(false);
 }
 
 void MusicEditorForm::onClose()
 {   
-   openFile(NULL);
+   // Disable FamiTracker MFC integration for Linux build
+   // openFile(NULL);
 }
 
 QMessageBox::StandardButton MusicEditorForm::onCloseQuery()
@@ -98,10 +100,11 @@ QMessageBox::StandardButton MusicEditorForm::onCloseQuery()
    doSave = CDesignerEditorBase::onCloseQuery();
    if ( doSave == QMessageBox::No )
    {
+      // Disable FamiTracker MFC integration for Linux build
       // Need to nix the MFC modified flag.
-      CFamiTrackerDoc* pDoc = (CFamiTrackerDoc*)AfxGetMainWnd()->GetActiveDocument();
-   
-      pDoc->SetModifiedFlag(FALSE);
+      // CFamiTrackerDoc* pDoc = (CFamiTrackerDoc*)AfxGetMainWnd()->GetActiveDocument();
+      // 
+      // pDoc->SetModifiedFlag(FALSE);
    }
    
    return doSave;
@@ -109,18 +112,19 @@ QMessageBox::StandardButton MusicEditorForm::onCloseQuery()
 
 bool MusicEditorForm::exportData()
 {
-//   AfxGetMainWnd()->SendMessage(ID_FILE_EXPORTTEXT);
-   CFamiTrackerDoc	*pDoc = static_cast<CFamiTrackerDoc*>(AfxGetMainWnd()->GetActiveDocument());
-   QDir exportDir(CNesicideProject::instance()->getProjectOutputBasePath());
-   QString fileName = QString(pDoc->GetFileTitle().GetBuffer());
-   fileName += ".ftxt";
-   CString FileName(exportDir.absoluteFilePath(fileName));
+   // Disable FamiTracker MFC integration for Linux build
+   // AfxGetMainWnd()->SendMessage(ID_FILE_EXPORTTEXT);
+   // CFamiTrackerDoc	*pDoc = static_cast<CFamiTrackerDoc*>(AfxGetMainWnd()->GetActiveDocument());
+   // QDir exportDir(CNesicideProject::instance()->getProjectOutputBasePath());
+   // QString fileName = QString(pDoc->GetFileTitle().GetBuffer());
+   // fileName += ".ftxt";
+   // CString FileName(exportDir.absoluteFilePath(fileName));
 
-   CTextExport Exporter;
-   CString sResult = Exporter.ExportFile(FileName, pDoc);
-   if (sResult.GetLength() > 0)
-   {
-      return false;
-   }
-   return true;
+   // CTextExport Exporter;
+   // CString sResult = Exporter.ExportFile(FileName, pDoc);
+   // if (sResult.GetLength() > 0)
+   // {
+   //    return false;
+   // }
+   return false;
 }

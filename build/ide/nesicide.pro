@@ -62,7 +62,7 @@ CONFIG(release, debug|release) {
     win32:QHEXEDIT_NAME=qhexedit4
     else:QHEXEDIT_NAME=qhexedit
 } else {
-   QHEXEDIT_NAME=qhexedit
+   QHEXEDIT_NAME=qhexeditd
    macx: QSCINTILLA_NAME=qscintilla2_qt5
    else: QSCINTILLA_NAME=qscintilla2_qt5
 
@@ -73,7 +73,7 @@ macx {
     SCINTILLA_LIBS = -L$$DEPENDENCYROOTPATH/qscintilla2/src -l$$QSCINTILLA_NAME
 }
 unix {
-    SCINTILLA_LIBS = -L$$DEPENDENCYROOTPATH/qscintilla2/src -l$$QSCINTILLA_NAME
+    SCINTILLA_LIBS = -L$$DEPENDENCYROOTPATH/qscintilla2/src -lqscintilla2_qt5
 }
 else {
     SCINTILLA_LIBS = -L$$DEPENDENCYROOTPATH/qscintilla2/src/$$DESTDIR -l$$QSCINTILLA_NAME
